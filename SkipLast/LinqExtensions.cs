@@ -10,7 +10,8 @@
 
 			do
 			{
-				if (hasItems = iterator.MoveNext())
+				hasItems = iterator.MoveNext();
+				if (hasItems)
 				{
 					cache.Enqueue(iterator.Current);
 					if (cache.Count > n)
@@ -40,5 +41,12 @@
 				}
 			} while (hasItems);
 		}
+
+		public static IEnumerable<T> SkipVarItems<T>(this IEnumerable<T> source, IEnumerable<T> exclude)
+		{
+			var iterator = source.GetEnumerator();
+
+			yield return iterator.Current;
+		} 
 	}
 }
