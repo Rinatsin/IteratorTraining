@@ -1,4 +1,4 @@
-﻿namespace SkipLast
+﻿namespace IteratorTraining
 {
 	internal static class LinqExtensions
 	{
@@ -42,11 +42,49 @@
 			} while (hasItems);
 		}
 
-		public static IEnumerable<T> SkipVarItems<T>(this IEnumerable<T> source, IEnumerable<T> exclude)
+		public static IEnumerable<T> WhereCustom<T>(this IEnumerable<T> source, Func<T, bool> predicate)
 		{
-			var iterator = source.GetEnumerator();
+			foreach (var item in source)
+			{
+				if (predicate(item))
+				{
+					yield return item;
+				}
+			}
+		}
 
-			yield return iterator.Current;
-		} 
+		public static IEnumerable<TResult> SelectCustom<TSource, TResult>(this IEnumerable<TSource> source,
+			Func<TSource, TResult> selector)
+		{
+			foreach (var item in source)
+			{
+				yield return selector(item);
+			}
+		}
+
+		public static IEnumerable<TSource> OrderByCustom<TSource, TKey>(this IEnumerable<TSource> source,
+			Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+		{
+			var elements = source.ToList();
+
+			while (elements.Count > 0)
+			{
+				TSource minElement = elements[0];
+				int minIndex = 0;
+				for (int i = 1; i < elements.Count; i++)
+				{
+					var element1 = keySelector(elements[i]);
+					var element2 = keySelector(minElement);
+
+					if (comparer.Compare(element1, element2) < 0)
+					{
+						minElement = elements[i];
+						minIndex = i;
+					}
+				}
+				elements.RemoveAt(minIndex);
+				yield return minElement;
+			}
+		}
 	}
 }

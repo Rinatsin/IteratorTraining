@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Reflection.Metadata.Ecma335;
 
-namespace SkipLast
+namespace IteratorTraining
 {
+	//Реализация стека (базовая)
 	internal class Stack<T> : IEnumerable<T>
 	{
 		private T[] _values = new T[100];
