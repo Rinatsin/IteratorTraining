@@ -24,6 +24,7 @@ namespace IteratorTraining
 			Console.ReadKey();
 			Console.WriteLine();
 
+			//Прорка работоспособности кастомных linq методов select where и orderBy
 			LinqMethodsTest();
 			Console.ReadKey();
 			Console.WriteLine();
